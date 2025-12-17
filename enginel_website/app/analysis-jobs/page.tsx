@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import ApiClient from '@/lib/api/client';
 
+export const dynamic = 'force-dynamic';
+
 interface AnalysisJob {
     id: string;
     design_asset: string;
