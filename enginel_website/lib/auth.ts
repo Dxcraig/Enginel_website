@@ -13,7 +13,7 @@ export interface User {
   first_name: string;
   last_name: string;
   is_us_person: boolean;
-  security_clearance_level: string;
+  security_clearance_level: 'UNCLASSIFIED' | 'CONFIDENTIAL' | 'SECRET' | 'TOP_SECRET';
   organization: string;
   phone_number?: string;
   department?: string;
@@ -63,7 +63,7 @@ export class AuthService {
         first_name: response.user.first_name,
         last_name: response.user.last_name,
         is_us_person: false, // Will be populated from user profile endpoint
-        security_clearance_level: 'Unclassified',
+        security_clearance_level: 'UNCLASSIFIED',
         organization: '',
         date_joined: new Date().toISOString(), // Default to now, will be populated from API
       };
