@@ -5,9 +5,7 @@
  * token refresh and error handling.
  */
 
-// Remove trailing slash from API URL to prevent double slashes
-const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/$/, '');
-const API_BASE_URL = baseUrl;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
 export interface ApiError {
   message: string;
