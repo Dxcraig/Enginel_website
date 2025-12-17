@@ -91,8 +91,8 @@ export default function OfflinePage() {
 
                 {/* Status Badge */}
                 <div className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full mb-6 ${isOnline
-                        ? 'bg-green-100 border border-green-300'
-                        : 'bg-red-100 border border-red-300'
+                    ? 'bg-green-100 border border-green-300'
+                    : 'bg-red-100 border border-red-300'
                     }`}>
                     <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-green-500 animate-pulse' : 'bg-red-500'
                         }`}></div>

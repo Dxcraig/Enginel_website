@@ -226,8 +226,8 @@ export default function NotificationsPage() {
                                 <button
                                     onClick={() => setFilter('all')}
                                     className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${filter === 'all'
-                                            ? 'bg-blue-600 text-white'
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        ? 'bg-blue-600 text-white'
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                         }`}
                                 >
                                     All
@@ -235,8 +235,8 @@ export default function NotificationsPage() {
                                 <button
                                     onClick={() => setFilter('unread')}
                                     className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${filter === 'unread'
-                                            ? 'bg-blue-600 text-white'
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        ? 'bg-blue-600 text-white'
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                         }`}
                                 >
                                     Unread
@@ -244,8 +244,8 @@ export default function NotificationsPage() {
                                 <button
                                     onClick={() => setFilter('read')}
                                     className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${filter === 'read'
-                                            ? 'bg-blue-600 text-white'
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        ? 'bg-blue-600 text-white'
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                         }`}
                                 >
                                     Read
