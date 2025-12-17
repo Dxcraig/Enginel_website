@@ -106,7 +106,7 @@ export class ApiClient {
       if (!response.ok) {
         let errorData: any = {};
         const contentType = response.headers.get('content-type');
-        
+
         try {
           if (contentType && contentType.includes('application/json')) {
             errorData = await response.json();
@@ -125,7 +125,7 @@ export class ApiClient {
           details: errorData,
           url: url,
         } as ApiError;
-        
+
         console.error('API Error Details:', {
           message: apiError.message,
           status: apiError.status,
@@ -144,11 +144,11 @@ export class ApiClient {
       if (error && typeof error === 'object' && 'status' in error) {
         throw error;
       }
-      console.error('Network Error Details:', { 
-        url, 
+      console.error('Network Error Details:', {
+        url,
         errorType: error instanceof Error ? error.constructor.name : typeof error,
         errorMessage: error instanceof Error ? error.message : String(error),
-        error 
+        error
       });
       throw {
         message: error instanceof Error ? error.message : 'Network error',
