@@ -26,7 +26,7 @@ export default function NotFound() {
         <h1 className="text-6xl font-bold text-gray-900 mb-4">404</h1>
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Page Not Found</h2>
         <p className="text-gray-600 mb-8">
-          Sorry, we couldn't find the page you're looking for. The resource may have been moved, 
+          Sorry, we couldn&apos;t find the page you&apos;re looking for. The resource may have been moved, 
           deleted, or the URL might be incorrect.
         </p>
 
@@ -41,15 +41,15 @@ export default function NotFound() {
             </svg>
             Go to Dashboard
           </Link>
-          <button
-            onClick={() => window.history.back()}
+          <Link
+            href="/"
             className="inline-flex items-center justify-center px-6 py-3 bg-white text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Go Back
-          </button>
+            Go Home
+          </Link>
         </div>
 
         {/* Help Links */}
