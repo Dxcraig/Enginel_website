@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import FilePreview from '@/components/FilePreview';
 import ApiClient from '@/lib/api/client';
 import { DesignAsset } from '@/types';
 
-export default function ViewerPage() {
+function ViewerPageContent() {
     const { user, isLoading: authLoading } = useAuth();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -218,5 +218,13 @@ export default function ViewerPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function ViewerPage() {
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <ViewerPageContent />
+        </Suspense>
     );
 }

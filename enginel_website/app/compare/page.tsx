@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ApiClient from '@/lib/api/client';
@@ -12,7 +12,7 @@ interface ComparisonData {
     right: DesignAsset | null;
 }
 
-export default function ComparePage() {
+function ComparePageContent() {
     const { user, isLoading: authLoading } = useAuth();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -335,5 +335,13 @@ export default function ComparePage() {
                 </div>
             )}
         </div>
+    );
+}
+
+export default function ComparePage() {
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <ComparePageContent />
+        </Suspense>
     );
 }
