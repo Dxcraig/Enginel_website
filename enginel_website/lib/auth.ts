@@ -15,6 +15,10 @@ export interface User {
   is_us_person: boolean;
   security_clearance_level: string;
   organization: string;
+  phone_number?: string;
+  department?: string;
+  job_title?: string;
+  date_joined: string;
 }
 
 export interface LoginCredentials {
@@ -61,6 +65,7 @@ export class AuthService {
         is_us_person: false, // Will be populated from user profile endpoint
         security_clearance_level: 'Unclassified',
         organization: '',
+        date_joined: new Date().toISOString(), // Default to now, will be populated from API
       };
 
       localStorage.setItem(USER_KEY, JSON.stringify(user));
