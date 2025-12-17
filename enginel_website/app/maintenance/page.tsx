@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 
+export const dynamic = 'force-dynamic';
+
 export default function MaintenancePage() {
     const [countdown, setCountdown] = useState<string>('');
 

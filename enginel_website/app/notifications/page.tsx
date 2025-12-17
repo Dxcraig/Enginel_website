@@ -6,6 +6,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import ApiClient from '@/lib/api/client';
 import { Notification } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 export default function NotificationsPage() {
     const router = useRouter();
     const { user, isLoading: authLoading } = useAuth();

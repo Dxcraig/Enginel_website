@@ -7,6 +7,8 @@ import Link from 'next/link';
 import ApiClient from '@/lib/api/client';
 import { DesignSeries, DesignAsset, ReviewSession } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 interface DashboardStats {
     totalDesigns: number;
     totalSeries: number;

@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export default function OfflinePage() {
     const router = useRouter();
     const [isOnline, setIsOnline] = useState(false);

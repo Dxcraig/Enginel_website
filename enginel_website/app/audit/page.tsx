@@ -1,5 +1,7 @@
 'use client';
 
+
+export const dynamic = 'force-dynamic';
 import { useState, useEffect } from 'react';
 import ApiClient from '@/lib/api/client';
 import type { AuditLogEntry } from '@/types';
