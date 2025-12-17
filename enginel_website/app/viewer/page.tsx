@@ -209,8 +209,8 @@ function ViewerPageContent() {
                     <div>
                         <span className="text-gray-500">Status:</span>
                         <span className={`ml-2 px-2 py-0.5 rounded text-xs font-medium ${design.processing_status === 'completed' ? 'bg-green-100 text-green-800' :
-                                design.processing_status === 'failed' ? 'bg-red-100 text-red-800' :
-                                    'bg-yellow-100 text-yellow-800'
+                            design.processing_status === 'failed' ? 'bg-red-100 text-red-800' :
+                                'bg-yellow-100 text-yellow-800'
                             }`}>
                             {design.processing_status}
                         </span>

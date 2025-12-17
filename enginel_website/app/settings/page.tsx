@@ -255,8 +255,8 @@ function SettingsPageContent() {
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
                                     className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${activeTab === tab.id
-                                            ? 'bg-blue-50 text-blue-600 font-medium'
-                                            : 'text-gray-700 hover:bg-gray-50'
+                                        ? 'bg-blue-50 text-blue-600 font-medium'
+                                        : 'text-gray-700 hover:bg-gray-50'
                                         }`}
                                 >
                                     {tab.icon}
@@ -337,9 +337,9 @@ function SettingsPageContent() {
                                                 <div>
                                                     <label className="block text-sm text-gray-500 mb-1">Security Clearance</label>
                                                     <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${user?.security_clearance_level === 'UNCLASSIFIED' ? 'bg-gray-100 text-gray-800' :
-                                                            user?.security_clearance_level === 'CONFIDENTIAL' ? 'bg-blue-100 text-blue-800' :
-                                                                user?.security_clearance_level === 'SECRET' ? 'bg-yellow-100 text-yellow-800' :
-                                                                    'bg-red-100 text-red-800'
+                                                        user?.security_clearance_level === 'CONFIDENTIAL' ? 'bg-blue-100 text-blue-800' :
+                                                            user?.security_clearance_level === 'SECRET' ? 'bg-yellow-100 text-yellow-800' :
+                                                                'bg-red-100 text-red-800'
                                                         }`}>
                                                         {user?.security_clearance_level}
                                                     </span>
