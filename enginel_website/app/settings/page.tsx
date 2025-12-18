@@ -78,7 +78,7 @@ function SettingsPageContent() {
 
     const fetchNotificationPreferences = async () => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('enginel_auth_token');
             const response = await fetch('/api/notifications/preferences/', {
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -97,7 +97,7 @@ function SettingsPageContent() {
     const saveProfile = async () => {
         try {
             setSaving(true);
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('enginel_auth_token');
             const response = await fetch(`/api/users/${user?.id}/`, {
                 method: 'PATCH',
                 headers: {
@@ -123,7 +123,7 @@ function SettingsPageContent() {
     const saveNotificationPreferences = async () => {
         try {
             setSaving(true);
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('enginel_auth_token');
             const response = await fetch('/api/notifications/preferences/', {
                 method: 'PATCH',
                 headers: {
@@ -159,7 +159,7 @@ function SettingsPageContent() {
 
         try {
             setSaving(true);
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('enginel_auth_token');
             const response = await fetch('/api/auth/change-password/', {
                 method: 'POST',
                 headers: {

@@ -52,7 +52,7 @@ export default function DesignsPage() {
     const fetchDesigns = async () => {
         try {
             setLoading(true);
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('enginel_auth_token');
             let url = '/api/designs/';
             const params = new URLSearchParams();
 
@@ -86,7 +86,7 @@ export default function DesignsPage() {
     const fetchSeries = async () => {
         try {
             setLoading(true);
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('enginel_auth_token');
             const response = await fetch('/api/series/', {
                 headers: {
                     'Authorization': `Token ${token}`,

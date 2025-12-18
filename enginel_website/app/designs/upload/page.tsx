@@ -66,11 +66,11 @@ export default function DesignUploadPage() {
 
     const fetchSeries = async () => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('enginel_auth_token');
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
             const response = await fetch(`${apiUrl}/series/`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Token ${token}`,
                 },
             });
 
@@ -174,7 +174,7 @@ export default function DesignUploadPage() {
         setUploadProgress(0);
 
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('enginel_auth_token');
 
             // Step 1: Create or select series
             let seriesId = formData.series_id;
@@ -185,7 +185,7 @@ export default function DesignUploadPage() {
                 const seriesResponse = await fetch(`${apiUrl}/series/`, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${token}`,
+                        'Authorization': `Token ${token}`,
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
@@ -226,7 +226,7 @@ export default function DesignUploadPage() {
             const uploadResponse = await fetch(`${apiUrl}/designs/`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Token ${token}`,
                 },
                 body: uploadFormData,
             });

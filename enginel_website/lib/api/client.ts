@@ -257,7 +257,7 @@ export class ApiClient {
 
     const headers: HeadersInit = {};
     if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
+      headers['Authorization'] = `Token ${token}`;
     }
 
     const response = await fetch(url, {
