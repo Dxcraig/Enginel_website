@@ -239,12 +239,12 @@ export default function DesignUploadPage() {
             const uploadFormData = new FormData();
             uploadFormData.append('file', formData.file!);
             uploadFormData.append('series', seriesId);
-            
+
             // Optional fields with defaults
             uploadFormData.append('revision', formData.revision.trim() || '1.0');
             uploadFormData.append('classification', formData.classification || 'UNCLASSIFIED');
             uploadFormData.append('units', 'mm');
-            
+
             if (formData.notes && formData.notes.trim()) {
                 uploadFormData.append('description', formData.notes.trim());
             }
