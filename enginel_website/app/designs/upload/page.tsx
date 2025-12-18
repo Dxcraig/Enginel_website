@@ -182,11 +182,11 @@ export default function DesignUploadPage() {
             if (isNewSeries) {
                 // Create new series - ONLY send part_number, name, description
                 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
-                
+
                 // Get filename without extension for default name
                 const fileName = formData.file?.name || 'design';
                 const fileNameWithoutExt = fileName.replace(/\.[^/.]+$/, '');
-                
+
                 // Build payload with ONLY required fields
                 const seriesPayload = {
                     part_number: formData.new_part_number.trim() || `PN-${Date.now()}`,
@@ -211,7 +211,7 @@ export default function DesignUploadPage() {
                     const errorData = await seriesResponse.json();
                     console.error('Series creation failed with status:', seriesResponse.status);
                     console.error('Error details:', JSON.stringify(errorData, null, 2));
-                    
+
                     // Build a detailed error message
                     let errorMessage = 'Failed to create series: ';
                     if (errorData.detail) {
@@ -223,7 +223,7 @@ export default function DesignUploadPage() {
                     } else {
                         errorMessage += JSON.stringify(errorData);
                     }
-                    
+
                     throw new Error(errorMessage);
                 }
 
