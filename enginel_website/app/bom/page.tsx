@@ -55,7 +55,8 @@ export default function BOMPage() {
             setLoading(true);
             const token = localStorage.getItem('enginel_auth_token');
 
-            let url = 'http://localhost:8000/api/bom-nodes/';
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+            let url = `${apiUrl}/bom-nodes/`;
             const params = new URLSearchParams();
 
             if (nodeTypeFilter !== 'all') {

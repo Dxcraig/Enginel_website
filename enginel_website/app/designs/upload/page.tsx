@@ -67,7 +67,8 @@ export default function DesignUploadPage() {
     const fetchSeries = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:8000/api/series/', {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+            const response = await fetch(`${apiUrl}/series/`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
@@ -180,7 +181,8 @@ export default function DesignUploadPage() {
 
             if (isNewSeries) {
                 // Create new series
-                const seriesResponse = await fetch('http://localhost:8000/api/series/', {
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+                const seriesResponse = await fetch(`${apiUrl}/series/`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -220,7 +222,8 @@ export default function DesignUploadPage() {
 
             setUploadProgress(40);
 
-            const uploadResponse = await fetch('http://localhost:8000/api/designs/', {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+            const uploadResponse = await fetch(`${apiUrl}/designs/`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
