@@ -234,19 +234,22 @@ export default function DesignUploadPage() {
                 setUploadProgress(20);
             }
 
-            // Step 2: Upload design asset with file
+            // Step 2: Upload design asset with file - Simplified
+            // version_number and filename will auto-populate on backend!
             const uploadFormData = new FormData();
-            uploadFormData.append('series', seriesId);
             uploadFormData.append('file', formData.file!);
-            uploadFormData.append('classification', formData.classification);
-
-            if (formData.revision) {
-                uploadFormData.append('revision', formData.revision);
+            uploadFormData.append('series', seriesId);
+            
+            // Optional fields with defaults
+            uploadFormData.append('revision', formData.revision.trim() || '1.0');
+            uploadFormData.append('classification', formData.classification || 'UNCLASSIFIED');
+            uploadFormData.append('units', 'mm');
+            
+            if (formData.notes && formData.notes.trim()) {
+                uploadFormData.append('description', formData.notes.trim());
             }
-            if (formData.notes) {
-                uploadFormData.append('notes', formData.notes);
-            }
 
+            console.log('Uploading design with series ID:', seriesId);
             setUploadProgress(40);
 
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
