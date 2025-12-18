@@ -317,8 +317,8 @@ export default function DesignUploadPage() {
                         {!formData.file ? (
                             <div
                                 className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${dragActive
-                                        ? 'border-blue-500 bg-blue-50'
-                                        : 'border-gray-300 hover:border-gray-400'
+                                    ? 'border-blue-500 bg-blue-50'
+                                    : 'border-gray-300 hover:border-gray-400'
                                     }`}
                                 onDragEnter={handleDrag}
                                 onDragLeave={handleDrag}
@@ -511,8 +511,8 @@ export default function DesignUploadPage() {
                                         <label
                                             key={option.value}
                                             className={`relative flex items-start p-4 border-2 rounded-lg cursor-pointer transition-all ${formData.classification === option.value
-                                                    ? 'border-blue-500 bg-blue-50'
-                                                    : 'border-gray-200 hover:border-gray-300'
+                                                ? 'border-blue-500 bg-blue-50'
+                                                : 'border-gray-200 hover:border-gray-300'
                                                 }`}
                                         >
                                             <input
