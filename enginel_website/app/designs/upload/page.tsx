@@ -187,9 +187,9 @@ export default function DesignUploadPage() {
                     name: formData.new_series_name.trim(),
                     description: formData.new_series_description.trim(),
                 };
-                
+
                 console.log('Creating series with payload:', seriesPayload);
-                
+
                 const seriesResponse = await fetch(`${apiUrl}/series/`, {
                     method: 'POST',
                     headers: {
