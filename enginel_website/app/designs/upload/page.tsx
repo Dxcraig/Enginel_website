@@ -182,22 +182,27 @@ export default function DesignUploadPage() {
             if (isNewSeries) {
                 // Create new series
                 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+                const seriesPayload = {
+                    part_number: formData.new_part_number.trim(),
+                    name: formData.new_series_name.trim(),
+                    description: formData.new_series_description.trim(),
+                };
+                
+                console.log('Creating series with payload:', seriesPayload);
+                
                 const seriesResponse = await fetch(`${apiUrl}/series/`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Token ${token}`,
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        part_number: formData.new_part_number,
-                        name: formData.new_series_name,
-                        description: formData.new_series_description,
-                    }),
+                    body: JSON.stringify(seriesPayload),
                 });
 
                 if (!seriesResponse.ok) {
                     const errorData = await seriesResponse.json();
-                    throw new Error(errorData.detail || errorData.part_number?.[0] || 'Failed to create series');
+                    console.error('Series creation failed:', errorData);
+                    throw new Error(errorData.detail || errorData.part_number?.[0] || errorData.name?.[0] || 'Failed to create series');
                 }
 
                 const seriesData = await seriesResponse.json();

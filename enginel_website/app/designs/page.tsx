@@ -196,8 +196,8 @@ export default function DesignsPage() {
                             <button
                                 onClick={() => setView('designs')}
                                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${view === 'designs'
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                     }`}
                             >
                                 All Designs
@@ -205,8 +205,8 @@ export default function DesignsPage() {
                             <button
                                 onClick={() => setView('series')}
                                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${view === 'series'
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                     }`}
                             >
                                 Part Numbers
