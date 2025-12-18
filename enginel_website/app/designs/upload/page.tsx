@@ -180,15 +180,21 @@ export default function DesignUploadPage() {
             let seriesId = formData.series_id;
 
             if (isNewSeries) {
-                // Create new series
+                // Create new series - ONLY send part_number, name, description
                 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+                
+                // Get filename without extension for default name
+                const fileName = formData.file?.name || 'design';
+                const fileNameWithoutExt = fileName.replace(/\.[^/.]+$/, '');
+                
+                // Build payload with ONLY required fields
                 const seriesPayload = {
-                    part_number: formData.new_part_number.trim(),
-                    name: formData.new_series_name.trim(),
-                    description: formData.new_series_description.trim(),
+                    part_number: formData.new_part_number.trim() || `PN-${Date.now()}`,
+                    name: formData.new_series_name.trim() || fileNameWithoutExt,
+                    description: formData.new_series_description.trim() || '',
                 };
 
-                console.log('Creating series with payload:', seriesPayload);
+                console.log('Creating series with:', JSON.stringify(seriesPayload, null, 2));
 
                 const seriesResponse = await fetch(`${apiUrl}/series/`, {
                     method: 'POST',
@@ -199,10 +205,26 @@ export default function DesignUploadPage() {
                     body: JSON.stringify(seriesPayload),
                 });
 
+                console.log('Series response status:', seriesResponse.status);
+
                 if (!seriesResponse.ok) {
                     const errorData = await seriesResponse.json();
-                    console.error('Series creation failed:', errorData);
-                    throw new Error(errorData.detail || errorData.part_number?.[0] || errorData.name?.[0] || 'Failed to create series');
+                    console.error('Series creation failed with status:', seriesResponse.status);
+                    console.error('Error details:', JSON.stringify(errorData, null, 2));
+                    
+                    // Build a detailed error message
+                    let errorMessage = 'Failed to create series: ';
+                    if (errorData.detail) {
+                        errorMessage += errorData.detail;
+                    } else if (errorData.part_number) {
+                        errorMessage += 'Part Number - ' + (Array.isArray(errorData.part_number) ? errorData.part_number[0] : errorData.part_number);
+                    } else if (errorData.name) {
+                        errorMessage += 'Name - ' + (Array.isArray(errorData.name) ? errorData.name[0] : errorData.name);
+                    } else {
+                        errorMessage += JSON.stringify(errorData);
+                    }
+                    
+                    throw new Error(errorMessage);
                 }
 
                 const seriesData = await seriesResponse.json();
