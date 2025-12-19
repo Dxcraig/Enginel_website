@@ -268,7 +268,7 @@ export default function DesignUploadPage() {
 
                 // Handle specific validation errors
                 if (errorData.non_field_errors && Array.isArray(errorData.non_field_errors)) {
-                    const uniqueError = errorData.non_field_errors.find((err: any) => 
+                    const uniqueError = errorData.non_field_errors.find((err: any) =>
                         typeof err === 'string' && err.includes('must make a unique set')
                     );
                     if (uniqueError) {
@@ -281,8 +281,8 @@ export default function DesignUploadPage() {
                 if (errorData.detail) {
                     errorMessage += errorData.detail;
                 } else if (errorData.non_field_errors) {
-                    errorMessage += Array.isArray(errorData.non_field_errors) 
-                        ? errorData.non_field_errors.join(', ') 
+                    errorMessage += Array.isArray(errorData.non_field_errors)
+                        ? errorData.non_field_errors.join(', ')
                         : errorData.non_field_errors;
                 } else if (errorData.file) {
                     errorMessage += 'File - ' + (Array.isArray(errorData.file) ? errorData.file[0] : errorData.file);
