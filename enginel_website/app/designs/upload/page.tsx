@@ -263,7 +263,36 @@ export default function DesignUploadPage() {
 
             if (!uploadResponse.ok) {
                 const errorData = await uploadResponse.json();
-                throw new Error(errorData.detail || 'Upload failed');
+                console.error('Upload failed with status:', uploadResponse.status);
+                console.error('Error details:', JSON.stringify(errorData, null, 2));
+
+                // Handle specific validation errors
+                if (errorData.non_field_errors && Array.isArray(errorData.non_field_errors)) {
+                    const uniqueError = errorData.non_field_errors.find((err: any) => 
+                        typeof err === 'string' && err.includes('must make a unique set')
+                    );
+                    if (uniqueError) {
+                        throw new Error('This version already exists for this part number. Please use a different part number or the version will be auto-incremented.');
+                    }
+                }
+
+                // Handle general errors
+                let errorMessage = 'Upload failed: ';
+                if (errorData.detail) {
+                    errorMessage += errorData.detail;
+                } else if (errorData.non_field_errors) {
+                    errorMessage += Array.isArray(errorData.non_field_errors) 
+                        ? errorData.non_field_errors.join(', ') 
+                        : errorData.non_field_errors;
+                } else if (errorData.file) {
+                    errorMessage += 'File - ' + (Array.isArray(errorData.file) ? errorData.file[0] : errorData.file);
+                } else if (errorData.series) {
+                    errorMessage += 'Series - ' + (Array.isArray(errorData.series) ? errorData.series[0] : errorData.series);
+                } else {
+                    errorMessage += JSON.stringify(errorData);
+                }
+
+                throw new Error(errorMessage);
             }
 
             const uploadData = await uploadResponse.json();
