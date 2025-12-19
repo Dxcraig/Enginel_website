@@ -296,11 +296,22 @@ export default function DesignUploadPage() {
             }
 
             const uploadData = await uploadResponse.json();
+            console.log('Upload successful! Response data:', JSON.stringify(uploadData, null, 2));
             setUploadProgress(100);
+
+            // Validate response has an ID
+            if (!uploadData.id) {
+                console.error('Warning: Upload response missing ID field. Full response:', uploadData);
+                setSuccess('Design uploaded successfully! Redirecting to designs list...');
+                setTimeout(() => {
+                    router.push('/designs');
+                }, 2000);
+                return;
+            }
 
             setSuccess('Design uploaded successfully! Processing geometry...');
 
-            // Reset form
+            // Reset form and redirect to design detail page
             setTimeout(() => {
                 router.push(`/designs/${uploadData.id}`);
             }, 2000);

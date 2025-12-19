@@ -77,6 +77,7 @@ export class ApiClient {
       let response = await fetch(url, {
         ...options,
         headers,
+        cache: 'no-store', // Prevent browser caching
       });
 
       console.log('API Response:', {
@@ -95,6 +96,7 @@ export class ApiClient {
           response = await fetch(url, {
             ...options,
             headers,
+            cache: 'no-store',
           });
           console.log('Retry after refresh:', {
             status: response.status,
