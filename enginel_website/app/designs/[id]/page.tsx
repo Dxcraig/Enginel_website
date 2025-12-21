@@ -347,29 +347,29 @@ export default function DesignDetailPage() {
                         </div>
                     )}
 
-                    {design.metadata && (
+                    {design.metadata && (design.metadata.volume_mm3 || design.metadata.surface_area_mm2 || design.metadata.bounding_box) && (
                         <div className="mt-6">
                             <h3 className="text-lg font-semibold mb-3">3D Model Metadata</h3>
                             <div className="grid grid-cols-2 gap-4">
-                                {design.metadata.volume_mm3 && (
+                                {design.metadata.volume_mm3 != null && (
                                     <div>
                                         <div className="text-sm text-gray-500 mb-1">Volume</div>
-                                        <div className="font-medium">{design.metadata.volume_mm3.toFixed(2)} mm³</div>
+                                        <div className="font-medium">{Number(design.metadata.volume_mm3).toFixed(2)} mm³</div>
                                     </div>
                                 )}
-                                {design.metadata.surface_area_mm2 && (
+                                {design.metadata.surface_area_mm2 != null && (
                                     <div>
                                         <div className="text-sm text-gray-500 mb-1">Surface Area</div>
-                                        <div className="font-medium">{design.metadata.surface_area_mm2.toFixed(2)} mm²</div>
+                                        <div className="font-medium">{Number(design.metadata.surface_area_mm2).toFixed(2)} mm²</div>
                                     </div>
                                 )}
                                 {design.metadata.bounding_box && (
                                     <div className="col-span-2">
                                         <div className="text-sm text-gray-500 mb-1">Bounding Box</div>
                                         <div className="font-medium text-sm">
-                                            X: {design.metadata.bounding_box.min_x.toFixed(2)} to {design.metadata.bounding_box.max_x.toFixed(2)} mm<br />
-                                            Y: {design.metadata.bounding_box.min_y.toFixed(2)} to {design.metadata.bounding_box.max_y.toFixed(2)} mm<br />
-                                            Z: {design.metadata.bounding_box.min_z.toFixed(2)} to {design.metadata.bounding_box.max_z.toFixed(2)} mm
+                                            X: {Number(design.metadata.bounding_box.min_x || 0).toFixed(2)} to {Number(design.metadata.bounding_box.max_x || 0).toFixed(2)} mm<br />
+                                            Y: {Number(design.metadata.bounding_box.min_y || 0).toFixed(2)} to {Number(design.metadata.bounding_box.max_y || 0).toFixed(2)} mm<br />
+                                            Z: {Number(design.metadata.bounding_box.min_z || 0).toFixed(2)} to {Number(design.metadata.bounding_box.max_z || 0).toFixed(2)} mm
                                         </div>
                                     </div>
                                 )}
