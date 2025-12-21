@@ -35,6 +35,21 @@ export default function DesignDetailPage() {
         }
     }, [user, designId]);
 
+    // Auto-refresh if design is still processing
+    useEffect(() => {
+        if (!design) return;
+        
+        const isProcessing = design.status === 'PROCESSING' || design.status === 'UPLOADING';
+        if (isProcessing) {
+            const refreshInterval = setInterval(() => {
+                console.log('Auto-refreshing processing design...');
+                loadDesignDetail();
+            }, 5000); // Refresh every 5 seconds
+
+            return () => clearInterval(refreshInterval);
+        }
+    }, [design?.status]);
+
     const loadDesignDetail = async () => {
         try {
             setLoading(true);
@@ -114,6 +129,76 @@ export default function DesignDetailPage() {
 
     return (
         <div className="container mx-auto px-4 py-8">
+            {/* Processing Status Banner */}
+            {design.status === 'PROCESSING' && (
+                <div className="mb-6 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg">
+                    <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                            <svg className="h-5 w-5 text-yellow-400 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                        <div className="ml-3">
+                            <p className="text-sm text-yellow-700">
+                                <strong>Processing in progress...</strong> Your design is being analyzed. Preview will be available when processing completes. This page will refresh automatically.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+            
+            {design.status === 'UPLOADING' && (
+                <div className="mb-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
+                    <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                            <svg className="h-5 w-5 text-blue-400 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                        </div>
+                        <div className="ml-3">
+                            <p className="text-sm text-blue-700">
+                                <strong>Upload in progress...</strong> Your file is being uploaded to secure storage. This page will refresh automatically.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {design.status === 'FAILED' && (
+                <div className="mb-6 bg-red-50 border-l-4 border-red-400 p-4 rounded-lg">
+                    <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                            <svg className="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                            </svg>
+                        </div>
+                        <div className="ml-3">
+                            <p className="text-sm text-red-700">
+                                <strong>Processing failed.</strong> {design.processing_error || 'There was an error processing your design file. Please try re-uploading.'}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {design.status === 'READY' && (
+                <div className="mb-6 bg-green-50 border-l-4 border-green-400 p-4 rounded-lg">
+                    <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                            <svg className="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                        </div>
+                        <div className="ml-3">
+                            <p className="text-sm text-green-700">
+                                <strong>Processing complete!</strong> Your design is ready for preview and review.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Header */}
             <div className="mb-6">
                 <Link
@@ -233,12 +318,14 @@ export default function DesignDetailPage() {
                             <div className="font-medium">{formatFileSize(design.file_size || 0)}</div>
                         </div>
                         <div>
-                            <div className="text-sm text-gray-500 mb-1">Processing Status</div>
-                            <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${design.processing_status === 'completed' ? 'bg-green-100 text-green-800' :
-                                design.processing_status === 'failed' ? 'bg-red-100 text-red-800' :
-                                    'bg-yellow-100 text-yellow-800'
-                                }`}>
-                                {design.processing_status}
+                            <div className="text-sm text-gray-500 mb-1">Status</div>
+                            <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                design.status === 'READY' ? 'bg-green-100 text-green-800' :
+                                design.status === 'FAILED' ? 'bg-red-100 text-red-800' :
+                                design.status === 'PROCESSING' ? 'bg-yellow-100 text-yellow-800' :
+                                'bg-blue-100 text-blue-800'
+                            }`}>
+                                {design.status}
                             </span>
                         </div>
                         <div>
