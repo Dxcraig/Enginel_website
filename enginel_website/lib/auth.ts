@@ -96,32 +96,29 @@ export class AuthService {
     if (!userJson) return null;
 
     try {
-      return JSON.parse(userJson);
-    } catch {
+      const user = JSON.parse(userJson);
+      // Verify we have a valid user object with required fields
+      if (user && user.id && user.username) {
+        return user;
+      }
+      return null;
+    } catch (error) {
+      console.error('Failed to parse user from localStorage:', error);
       return null;
     }
   }
 
   static isAuthenticated(): boolean {
     if (typeof window === 'undefined') return false;
-    return !!localStorage.getItem(TOKEN_KEY);
+    const token = localStorage.getItem(TOKEN_KEY);
+    const user = localStorage.getItem(USER_KEY);
+    return !!(token && user);
   }
 
   static async getCurrentUserFromAPI(): Promise<User> {
     const user = await ApiClient.get<User>('/users/me/');
     localStorage.setItem(USER_KEY, JSON.stringify(user));
     return user;
-  }
-
-  static async verifyToken(): Promise<boolean> {
-    try {
-      await ApiClient.post('/auth/verify/', {
-        token: localStorage.getItem(TOKEN_KEY),
-      });
-      return true;
-    } catch {
-      return false;
-    }
   }
 }
 

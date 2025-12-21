@@ -23,15 +23,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Check if user is already logged in
     const loadUser = async () => {
       const currentUser = AuthService.getCurrentUser();
-      if (currentUser) {
-        // Verify token is still valid
-        const isValid = await AuthService.verifyToken();
-        if (isValid) {
-          setUser(currentUser);
-        } else {
-          // Token expired or invalid, clear auth state
-          AuthService.logout();
-        }
+      const hasToken = AuthService.isAuthenticated();
+      
+      if (currentUser && hasToken) {
+        // Trust the stored user data - don't verify on every page load
+        // The API client will handle 401s and refresh tokens automatically
+        console.log('Restoring user session from localStorage');
+        setUser(currentUser);
+      } else {
+        console.log('No valid session found');
       }
       setIsLoading(false);
     };
