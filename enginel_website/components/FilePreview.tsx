@@ -118,7 +118,7 @@ function DocumentPreview({ fileUrl, fileName }: { fileUrl: string; fileName: str
 
 function UnsupportedPreview({ fileName, fileUrl }: { fileName: string; fileUrl?: string }) {
     const isProcessing = !fileUrl;
-    
+
     return (
         <div className="flex items-center justify-center h-full bg-gray-100">
             <div className="text-center max-w-md px-4">

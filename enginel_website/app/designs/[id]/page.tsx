@@ -38,7 +38,7 @@ export default function DesignDetailPage() {
     // Auto-refresh if design is still processing
     useEffect(() => {
         if (!design) return;
-        
+
         const isProcessing = design.status === 'PROCESSING' || design.status === 'UPLOADING';
         if (isProcessing) {
             const refreshInterval = setInterval(() => {
@@ -147,7 +147,7 @@ export default function DesignDetailPage() {
                     </div>
                 </div>
             )}
-            
+
             {design.status === 'UPLOADING' && (
                 <div className="mb-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
                     <div className="flex items-center">
@@ -319,12 +319,11 @@ export default function DesignDetailPage() {
                         </div>
                         <div>
                             <div className="text-sm text-gray-500 mb-1">Status</div>
-                            <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                design.status === 'READY' ? 'bg-green-100 text-green-800' :
-                                design.status === 'FAILED' ? 'bg-red-100 text-red-800' :
-                                design.status === 'PROCESSING' ? 'bg-yellow-100 text-yellow-800' :
-                                'bg-blue-100 text-blue-800'
-                            }`}>
+                            <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${design.status === 'READY' ? 'bg-green-100 text-green-800' :
+                                    design.status === 'FAILED' ? 'bg-red-100 text-red-800' :
+                                        design.status === 'PROCESSING' ? 'bg-yellow-100 text-yellow-800' :
+                                            'bg-blue-100 text-blue-800'
+                                }`}>
                                 {design.status}
                             </span>
                         </div>
@@ -400,9 +399,9 @@ export default function DesignDetailPage() {
                                     <tr key={result.id} className="hover:bg-gray-50">
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className={`px-2 py-1 text-xs font-semibold rounded-full ${result.status === 'PASSED' ? 'bg-green-100 text-green-800' :
-                                                    result.status === 'FAILED' ? 'bg-red-100 text-red-800' :
-                                                        result.status === 'SKIPPED' ? 'bg-gray-100 text-gray-800' :
-                                                            'bg-orange-100 text-orange-800'
+                                                result.status === 'FAILED' ? 'bg-red-100 text-red-800' :
+                                                    result.status === 'SKIPPED' ? 'bg-gray-100 text-gray-800' :
+                                                        'bg-orange-100 text-orange-800'
                                                 }`}>
                                                 {result.status}
                                             </span>
