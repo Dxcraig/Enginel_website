@@ -1,9 +1,9 @@
 'use client';
 
-
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import ApiClient from '@/lib/api/client';
 
 interface DesignAsset {
     id: string;
@@ -52,8 +52,7 @@ export default function DesignsPage() {
     const fetchDesigns = async () => {
         try {
             setLoading(true);
-            const token = localStorage.getItem('enginel_auth_token');
-            let url = '/api/designs/';
+            let endpoint = '/designs/';
             const params = new URLSearchParams();
 
             if (statusFilter !== 'all') {
@@ -63,21 +62,16 @@ export default function DesignsPage() {
                 params.append('classification', classificationFilter);
             }
             if (params.toString()) {
-                url += '?' + params.toString();
+                endpoint += '?' + params.toString();
             }
 
-            const response = await fetch(url, {
-                headers: {
-                    'Authorization': `Token ${token}`,
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setDesigns(data.results || data);
-            }
+            console.log('Fetching designs from:', endpoint);
+            const data = await ApiClient.get<{ results: DesignAsset[] }>(endpoint);
+            console.log('Designs fetched:', data.results?.length || 0);
+            setDesigns(data.results || []);
         } catch (error) {
             console.error('Failed to fetch designs:', error);
+            setDesigns([]);
         } finally {
             setLoading(false);
         }
@@ -86,19 +80,13 @@ export default function DesignsPage() {
     const fetchSeries = async () => {
         try {
             setLoading(true);
-            const token = localStorage.getItem('enginel_auth_token');
-            const response = await fetch('/api/series/', {
-                headers: {
-                    'Authorization': `Token ${token}`,
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setSeries(data.results || data);
-            }
+            console.log('Fetching series...');
+            const data = await ApiClient.get<{ results: Series[] }>('/series/');
+            console.log('Series fetched:', data.results?.length || 0);
+            setSeries(data.results || []);
         } catch (error) {
             console.error('Failed to fetch series:', error);
+            setSeries([]);
         } finally {
             setLoading(false);
         }
@@ -177,15 +165,27 @@ export default function DesignsPage() {
                             Manage engineering design files, CAD models, and technical drawings
                         </p>
                     </div>
-                    <button
-                        onClick={() => router.push('/designs/upload')}
-                        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 shadow-sm"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                        </svg>
-                        <span>Upload Design</span>
-                    </button>
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={() => view === 'designs' ? fetchDesigns() : fetchSeries()}
+                            disabled={loading}
+                            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            <svg className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            <span>{loading ? 'Refreshing...' : 'Refresh'}</span>
+                        </button>
+                        <button
+                            onClick={() => router.push('/designs/upload')}
+                            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 shadow-sm"
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                            </svg>
+                            <span>Upload Design</span>
+                        </button>
+                    </div>
                 </div>
 
                 {/* View Toggle & Search */}
