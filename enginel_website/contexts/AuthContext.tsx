@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const loadUser = async () => {
       const currentUser = AuthService.getCurrentUser();
       const hasToken = AuthService.isAuthenticated();
-      
+
       if (currentUser && hasToken) {
         // Trust the stored user data - don't verify on every page load
         // The API client will handle 401s and refresh tokens automatically
