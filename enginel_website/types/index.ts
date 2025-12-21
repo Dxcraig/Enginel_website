@@ -45,6 +45,7 @@ export interface DesignAsset {
   file_hash: string;
   file_type: string;
   file_url?: string;
+  preview_url?: string | null; // STL preview URL for STEP files
   s3_key?: string;
   status: 'UPLOADING' | 'PROCESSING' | 'READY' | 'FAILED';
   processing_status?: string;
@@ -56,6 +57,18 @@ export interface DesignAsset {
   updated_at: string;
   change_description?: string;
   notes?: string;
+  metadata?: {
+    volume_mm3?: number;
+    surface_area_mm2?: number;
+    bounding_box?: {
+      min_x: number;
+      min_y: number;
+      min_z: number;
+      max_x: number;
+      max_y: number;
+      max_z: number;
+    };
+  };
 }
 
 export interface ValidationRule {

@@ -294,9 +294,12 @@ export default function DesignDetailPage() {
                 <div className="bg-gray-900 rounded-lg overflow-hidden" style={{ height: '600px' }}>
                     <FilePreview
                         fileUrl={fileUrl}
+                        previewUrl={design.preview_url}
                         fileName={design.file_name}
                         fileType={design.file_type}
                         fileSize={design.file_size}
+                        status={design.status}
+                        processingError={design.processing_error}
                     />
                 </div>
             )}
@@ -341,6 +344,36 @@ export default function DesignDetailPage() {
                         <div className="mt-6">
                             <div className="text-sm text-gray-500 mb-2">Change Description</div>
                             <div className="p-4 bg-gray-50 rounded-lg">{design.change_description}</div>
+                        </div>
+                    )}
+
+                    {design.metadata && (
+                        <div className="mt-6">
+                            <h3 className="text-lg font-semibold mb-3">3D Model Metadata</h3>
+                            <div className="grid grid-cols-2 gap-4">
+                                {design.metadata.volume_mm3 && (
+                                    <div>
+                                        <div className="text-sm text-gray-500 mb-1">Volume</div>
+                                        <div className="font-medium">{design.metadata.volume_mm3.toFixed(2)} mm³</div>
+                                    </div>
+                                )}
+                                {design.metadata.surface_area_mm2 && (
+                                    <div>
+                                        <div className="text-sm text-gray-500 mb-1">Surface Area</div>
+                                        <div className="font-medium">{design.metadata.surface_area_mm2.toFixed(2)} mm²</div>
+                                    </div>
+                                )}
+                                {design.metadata.bounding_box && (
+                                    <div className="col-span-2">
+                                        <div className="text-sm text-gray-500 mb-1">Bounding Box</div>
+                                        <div className="font-medium text-sm">
+                                            X: {design.metadata.bounding_box.min_x.toFixed(2)} to {design.metadata.bounding_box.max_x.toFixed(2)} mm<br />
+                                            Y: {design.metadata.bounding_box.min_y.toFixed(2)} to {design.metadata.bounding_box.max_y.toFixed(2)} mm<br />
+                                            Z: {design.metadata.bounding_box.min_z.toFixed(2)} to {design.metadata.bounding_box.max_z.toFixed(2)} mm
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     )}
 

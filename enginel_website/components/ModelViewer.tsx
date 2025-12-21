@@ -1,9 +1,10 @@
 'use client';
 
-import { Suspense, useState, useRef } from 'react';
+import { Suspense, useState, useRef, useEffect } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Grid, Box, Environment, ContactShadows, useGLTF } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, Grid, Box, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
 
 interface ModelViewerProps {
     modelUrl?: string;
@@ -36,13 +37,96 @@ function FallbackModel() {
     );
 }
 
+function STLModel({ modelUrl }: { modelUrl: string }) {
+    const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const { camera } = useThree();
+    const meshRef = useRef<THREE.Mesh>(null);
+
+    useEffect(() => {
+        const loader = new STLLoader();
+        setLoading(true);
+        setError(null);
+
+        loader.load(
+            modelUrl,
+            (loadedGeometry) => {
+                // Center and compute normals
+                loadedGeometry.center();
+                loadedGeometry.computeVertexNormals();
+                setGeometry(loadedGeometry);
+                setLoading(false);
+
+                // Fit camera to object
+                setTimeout(() => {
+                    if (meshRef.current) {
+                        const box = new THREE.Box3().setFromObject(meshRef.current);
+                        const center = box.getCenter(new THREE.Vector3());
+                        const size = box.getSize(new THREE.Vector3());
+
+                        const maxDim = Math.max(size.x, size.y, size.z);
+                        const fov = (camera as THREE.PerspectiveCamera).fov * (Math.PI / 180);
+                        const cameraZ = Math.abs(maxDim / Math.tan(fov / 2));
+
+                        camera.position.set(center.x + cameraZ * 0.8, center.y + cameraZ * 0.8, center.z + cameraZ * 0.8);
+                        camera.lookAt(center);
+                    }
+                }, 100);
+            },
+            (progress) => {
+                const percent = (progress.loaded / progress.total) * 100;
+                console.log(`Loading STL: ${percent.toFixed(0)}%`);
+            },
+            (err) => {
+                console.error('Error loading STL:', err);
+                setError('Failed to load 3D model');
+                setLoading(false);
+            }
+        );
+    }, [modelUrl, camera]);
+
+    if (error) {
+        return <FallbackModel />;
+    }
+
+    if (loading || !geometry) {
+        return <LoadingFallback />;
+    }
+
+    return (
+        <group>
+            <mesh ref={meshRef} geometry={geometry}>
+                <meshPhongMaterial
+                    color={0x606060}
+                    specular={0x111111}
+                    shininess={200}
+                    side={THREE.DoubleSide}
+                />
+            </mesh>
+            <ContactShadows
+                position={[0, -1.5, 0]}
+                opacity={0.5}
+                scale={10}
+                blur={2}
+                far={4}
+            />
+        </group>
+    );
+}
+
 function ModelContent({ modelUrl, fileType }: { modelUrl?: string; fileType?: string }) {
     if (!modelUrl) {
         return <FallbackModel />;
     }
 
-    // For now, show fallback. In production, you'd load different model types here
-    // based on fileType (STEP, STL, OBJ, etc.)
+    // Load STL files (preview from STEP conversion)
+    const ext = fileType?.toLowerCase();
+    if (ext === 'stl' || ext === 'step' || ext === 'stp') {
+        return <STLModel modelUrl={modelUrl} />;
+    }
+
+    // Fallback for unsupported types
     return <FallbackModel />;
 }
 
