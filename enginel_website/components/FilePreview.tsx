@@ -119,9 +119,9 @@ function DocumentPreview({ fileUrl, fileName }: { fileUrl: string; fileName: str
     );
 }
 
-function UnsupportedPreview({ fileName, fileUrl, status, processingError }: { 
-    fileName: string; 
-    fileUrl?: string; 
+function UnsupportedPreview({ fileName, fileUrl, status, processingError }: {
+    fileName: string;
+    fileUrl?: string;
     status?: string;
     processingError?: string;
 }) {
@@ -139,7 +139,7 @@ function UnsupportedPreview({ fileName, fileUrl, status, processingError }: {
             </div>
         );
     }
-    
+
     if (status === 'PROCESSING' || !fileUrl) {
         return (
             <div className="flex items-center justify-center h-full bg-gray-100">
@@ -176,7 +176,7 @@ function UnsupportedPreview({ fileName, fileUrl, status, processingError }: {
             </div>
         );
     }
-    
+
     return (
         <div className="flex items-center justify-center h-full bg-gray-100">
             <div className="text-center max-w-md px-4">
@@ -212,11 +212,11 @@ export default function FilePreview({ fileUrl, previewUrl, fileName, fileType, f
         case 'model':
             // For 3D models, prefer preview_url (STL) over original file
             const modelUrl = previewUrl || fileUrl;
-            
+
             if (!modelUrl) {
                 return <UnsupportedPreview fileName={fileName} fileUrl={fileUrl} status={status} processingError={processingError} />;
             }
-            
+
             return (
                 <ModelViewer
                     modelUrl={modelUrl}
